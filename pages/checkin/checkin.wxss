@@ -1,0 +1,205 @@
+/* 排班卡片 */
+.duty-card {
+  background: linear-gradient(135deg, #07c160 0%, #05a350 100%);
+  color: #fff;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  padding: 30rpx;
+}
+
+.duty-card.no-duty {
+  background: linear-gradient(135deg, #909399 0%, #606266 100%);
+}
+
+.duty-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.duty-date {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.duty-time, .duty-location {
+  display: flex;
+  align-items: center;
+  margin-top: 16rpx;
+  font-size: 28rpx;
+}
+
+.time-icon, .location-icon {
+  margin-right: 12rpx;
+}
+
+.time-range {
+  margin-right: 16rpx;
+}
+
+.location-name {
+  margin-right: 12rpx;
+}
+
+.location-radius {
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+
+/* 位置卡片 */
+.location-card, .photo-card, .remark-card {
+  margin: 0 20rpx 20rpx;
+}
+
+.location-info {
+  padding: 20rpx 0;
+}
+
+.location-item {
+  display: flex;
+  margin-bottom: 16rpx;
+  font-size: 28rpx;
+}
+
+.location-item .label {
+  width: 180rpx;
+  color: #666;
+}
+
+.location-item .value {
+  flex: 1;
+  color: #333;
+  font-weight: 500;
+}
+
+.text-success {
+  color: #07c160;
+}
+
+.text-danger {
+  color: #ff4d4f;
+}
+
+.location-loading {
+  padding: 40rpx;
+  text-align: center;
+}
+
+.refresh-btn {
+  margin-top: 20rpx;
+  padding: 16rpx;
+  background: #f5f5f5;
+  border: none;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  color: var(--primary);
+}
+
+/* 照片上传 */
+.photo-tips {
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 20rpx;
+}
+
+.photo-upload {
+  padding: 20rpx 0;
+}
+
+/* 打卡按钮 */
+.action-area {
+  margin: 40rpx 20rpx;
+}
+
+.checkin-btn-wrapper, .checkout-btn-wrapper {
+  text-align: center;
+}
+
+.checkin-btn, .checkout-btn {
+  width: 300rpx;
+  height: 300rpx;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 8rpx 30rpx rgba(7, 193, 96, 0.4);
+  transition: all 0.3s;
+}
+
+.checkin-btn {
+  background: linear-gradient(135deg, #07c160 0%, #05a350 100%);
+}
+
+.checkout-btn {
+  background: linear-gradient(135deg, #ff9500 0%, #ff7700 100%);
+  box-shadow: 0 8rpx 30rpx rgba(255, 149, 0, 0.4);
+}
+
+.checkin-btn.disabled, .checkout-btn.disabled {
+  background: #ccc;
+  box-shadow: none;
+}
+
+.btn-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-icon {
+  font-size: 60rpx;
+  margin-bottom: 16rpx;
+}
+
+.btn-text {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #fff;
+}
+
+.btn-time {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 12rpx;
+}
+
+.cannot-checkin-tips, .cannot-checkout-tips {
+  margin-top: 20rpx;
+  font-size: 26rpx;
+  color: #ff4d4f;
+}
+
+/* 记录卡片 */
+.record-card {
+  margin: 0 20rpx 40rpx;
+}
+
+/* 已完成状态 */
+.completed-wrapper {
+  text-align: center;
+  padding: 60rpx 40rpx;
+  background: #f6ffed;
+  border-radius: 20rpx;
+  border: 2rpx solid #b7eb8f;
+}
+
+.completed-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.completed-text {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #52c41a;
+  margin-bottom: 12rpx;
+}
+
+.completed-subtext {
+  font-size: 28rpx;
+  color: #999;
+}

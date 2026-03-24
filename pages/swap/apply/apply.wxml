@@ -1,0 +1,135 @@
+<!--pages/swap/apply/apply.wxml-->
+<view class="page-container">
+  <view class="form-card">
+    <van-cell-group title="选择要换的班次">
+      <van-cell 
+        title="{{selectedDuty ? selectedDuty.date + ' ' + selectedDuty.shiftInfo.name : '请选择我的排班'}}" 
+        is-link 
+        bindtap="selectMyDuty"
+        required
+      />
+    </van-cell-group>
+    
+    <van-cell-group title="选择交换对象" wx:if="{{selectedDuty}}">
+      <van-cell 
+        title="{{selectedUser ? selectedUser.realName : '请选择目标人员'}}" 
+        label="{{selectedUser ? selectedUser.department : ''}}"
+        is-link 
+        bindtap="selectTargetUser"
+        required
+      />
+      <van-cell 
+        wx:if="{{targetUserDuties.length > 0}}"
+        title="{{selectedTargetDuty ? selectedTargetDuty.date + ' ' + selectedTargetDuty.shiftInfo.name : '选择对方的排班（可选）'}}" 
+        is-link 
+        bindtap="selectTargetDuty"
+      />
+    </van-cell-group>
+    
+    <van-cell-group title="换班理由">
+      <van-field
+        type="textarea"
+        value="{{reason}}"
+        placeholder="请输入换班理由"
+        bind:change="onReasonChange"
+        autosize
+        maxlength="200"
+        show-word-limit
+      />
+    </van-cell-group>
+  </view>
+  
+  <view class="submit-bar">
+    <van-button type="primary" block bindtap="submitApply" disabled="{{!canSubmit}}">提交申请</van-button>
+  </view>
+  
+  <!-- 我的排班选择弹窗 -->
+  <van-popup show="{{showDutyPicker}}" position="bottom" bind:close="hideDutyPicker" round>
+    <view class="picker-header">
+      <text class="picker-title">选择我的排班</text>
+      <text class="picker-close" bindtap="hideDutyPicker">关闭</text>
+    </view>
+    <scroll-view scroll-y class="duty-list">
+      <view wx:if="{{myDuties.length > 0}}">
+        <view 
+          wx:for="{{myDuties}}" 
+          wx:key="_id" 
+          class="duty-item {{selectedDuty && selectedDuty._id === item._id ? 'selected' : ''}}"
+          bindtap="confirmDuty"
+          data-item="{{item}}"
+        >
+          <view class="duty-info-row">
+            <text class="duty-date">{{item.date}}</text>
+            <text class="duty-shift">{{item.shiftInfo.name}}</text>
+            <text class="duty-time">{{item.shiftInfo.startTime}}-{{item.shiftInfo.endTime}}</text>
+          </view>
+        </view>
+      </view>
+      <view wx:else class="empty-state">
+        <van-empty description="暂无可换班的排班" />
+      </view>
+    </scroll-view>
+  </van-popup>
+  
+  <!-- 目标人员选择弹窗 -->
+  <van-popup show="{{showUserPicker}}" position="bottom" bind:close="hideUserPicker" round>
+    <view class="picker-header">
+      <text class="picker-title">选择目标人员</text>
+      <text class="picker-close" bindtap="hideUserPicker">关闭</text>
+    </view>
+    <scroll-view scroll-y class="user-list">
+      <view wx:if="{{userList.length > 0}}">
+        <view 
+          wx:for="{{userList}}" 
+          wx:key="_id" 
+          class="user-item {{selectedUser && selectedUser._id === item._id ? 'selected' : ''}}"
+          bindtap="confirmUser"
+          data-item="{{item}}"
+        >
+          <image class="user-avatar" src="{{item.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"/>
+          <view class="user-info">
+            <text class="user-name">{{item.realName}}</text>
+            <text class="user-dept">{{item.department || ''}}</text>
+          </view>
+        </view>
+      </view>
+      <view wx:else class="empty-state">
+        <van-empty description="暂无可选人员" />
+      </view>
+    </scroll-view>
+  </van-popup>
+  
+  <!-- 对方排班选择弹窗 -->
+  <van-popup show="{{showTargetDutyPicker}}" position="bottom" bind:close="hideTargetDutyPicker" round>
+    <view class="picker-header">
+      <text class="picker-title">选择对方排班（可选）</text>
+      <text class="picker-close" bindtap="hideTargetDutyPicker">关闭</text>
+    </view>
+    <scroll-view scroll-y class="duty-list">
+      <view wx:if="{{targetUserDuties.length > 0}}">
+        <view 
+          class="duty-item {{!selectedTargetDuty ? 'selected' : ''}}"
+          bindtap="confirmTargetDuty"
+          data-item="{{null}}"
+        >
+          <text class="duty-shift">不指定排班（仅转让）</text>
+        </view>
+        <view 
+          wx:for="{{targetUserDuties}}" 
+          wx:key="_id" 
+          class="duty-item {{selectedTargetDuty && selectedTargetDuty._id === item._id ? 'selected' : ''}}"
+          bindtap="confirmTargetDuty"
+          data-item="{{item}}"
+        >
+          <view class="duty-info-row">
+            <text class="duty-date">{{item.date}}</text>
+            <text class="duty-shift">{{item.shiftInfo.name}}</text>
+            <text class="duty-time">{{item.shiftInfo.startTime}}-{{item.shiftInfo.endTime}}</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </van-popup>
+  
+  <van-toast id="van-toast" />
+</view>

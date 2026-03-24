@@ -1,0 +1,37 @@
+<!--pages/admin/notices.wxml-->
+<view class="page-container">
+  <!-- 公告列表 -->
+  <view class="notice-list">
+    <view wx:if="{{notices.length > 0}}">
+      <view wx:for="{{notices}}" wx:key="_id" class="notice-card {{item.isTop ? 'is-top' : ''}}">
+        <view class="notice-header">
+          <view class="notice-title">
+            <van-tag wx:if="{{item.isTop}}" type="danger" size="mini" custom-class="top-tag">置顶</van-tag>
+            <text class="title-text">{{item.title}}</text>
+          </view>
+          <view class="notice-actions">
+            <van-button type="primary" size="mini" plain bindtap="editNotice" data-id="{{item._id}}">编辑</van-button>
+            <van-button type="danger" size="mini" plain bindtap="deleteNotice" data-id="{{item._id}}">删除</van-button>
+          </view>
+        </view>
+        <view class="notice-body">
+          <text class="notice-content">{{item.content}}</text>
+        </view>
+        <view class="notice-footer">
+          <text class="notice-time">{{formatDateTime(item.createTime)}}</text>
+          <text class="notice-type">{{getTypeText(item.type)}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="empty-state">
+      <van-empty description="暂无公告" />
+    </view>
+  </view>
+  
+  <!-- 添加按钮 -->
+  <view class="fab-btn" bindtap="addNotice">
+    <text class="fab-icon">+</text>
+  </view>
+  
+  <van-toast id="van-toast" />
+</view>

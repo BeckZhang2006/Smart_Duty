@@ -1,0 +1,86 @@
+<view class="page-container">
+  <view class="form-card card">
+    <view class="form-title">编辑用户信息</view>
+    
+    <view class="form-item">
+      <view class="form-label">真实姓名 <text class="required">*</text></view>
+      <van-field
+        value="{{form.realName}}"
+        placeholder="请输入真实姓名"
+        border="{{false}}"
+        bind:change="onRealNameChange"
+      />
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">手机号 <text class="required">*</text></view>
+      <van-field
+        value="{{form.phone}}"
+        type="number"
+        maxlength="11"
+        placeholder="请输入手机号"
+        border="{{false}}"
+        bind:change="onPhoneChange"
+      />
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">所属部门</view>
+      <van-picker
+        show-toolbar
+        title="选择部门"
+        columns="{{departments}}"
+        bind:confirm="onDepartmentChange"
+      />
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">用户角色</view>
+      <van-cell
+        title="当前角色"
+        value="{{form.role === 'admin' ? '管理员' : '普通员工'}}"
+        is-link
+        bindtap="showRolePicker"
+      />
+    </view>
+    
+    <view class="form-item" wx:if="{{userInfo}}">
+      <view class="form-label">注册时间</view>
+      <view class="info-text">{{formatDate(userInfo.createTime)}}</view>
+    </view>
+  </view>
+  
+  <view class="action-bar">
+    <van-button 
+      type="primary" 
+      block
+      loading="{{loading}}"
+      bindtap="saveUser"
+    >
+      保存
+    </van-button>
+    
+    <van-button 
+      type="danger" 
+      block
+      plain
+      style="margin-top: 20rpx;"
+      bindtap="deleteUser"
+    >
+      删除用户
+    </van-button>
+  </view>
+</view>
+
+<van-popup show="{{showRolePicker}}" position="bottom" bind:close="hideRolePicker">
+  <van-picker
+    show-toolbar
+    title="选择角色"
+    columns="{{roles}}"
+    bind:confirm="onRoleConfirm"
+    bind:cancel="hideRolePicker"
+  />
+</van-popup>
+
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" />

@@ -1,0 +1,147 @@
+<view class="page-container">
+  <!-- 时间选择器 -->
+  <view class="time-selector card">
+    <view class="selector-row">
+      <view class="selector-item" bindtap="showMonthPicker">
+        <text class="label">月份</text>
+        <text class="value">{{currentMonth}}</text>
+        <text class="arrow">▼</text>
+      </view>
+      <view class="selector-item" bindtap="toggleType" wx:if="{{isAdmin}}">
+        <text class="label">统计范围</text>
+        <text class="value">{{statsType === 'personal' ? '个人' : '团队'}}</text>
+        <text class="arrow">▼</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 汇总数据卡片 -->
+  <view class="summary-card card">
+    <view class="summary-title">📊 工时汇总</view>
+    <view class="summary-grid">
+      <view class="summary-item">
+        <text class="summary-value text-primary">{{summary.totalShifts || 0}}</text>
+        <text class="summary-label">排班次数</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-value text-success">{{summary.completedShifts || 0}}</text>
+        <text class="summary-label">已完成</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-value text-info">{{summary.totalWorkHours || 0}}</text>
+        <text class="summary-label">总工时(小时)</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-value text-warning">{{summary.averageHours || 0}}</text>
+        <text class="summary-label">平均工时</text>
+      </view>
+    </view>
+    
+    <!-- 自由打卡统计 -->
+    <view class="free-check-stats" wx:if="{{summary.freeCheckCount > 0}}">
+      <view class="free-check-title">📝 自由打卡</view>
+      <view class="free-check-grid">
+        <view class="free-check-item">
+          <text class="free-check-value">{{summary.freeCheckCount}}</text>
+          <text class="free-check-label">打卡次数</text>
+        </view>
+        <view class="free-check-item">
+          <text class="free-check-value">{{summary.freeCheckHours}}</text>
+          <text class="free-check-label">自由工时</text>
+        </view>
+      </view>
+    </view>
+    
+    <view class="summary-footer" wx:if="{{statsType === 'personal'}}">
+      <view class="footer-item">
+        <text class="footer-label">迟到:</text>
+        <text class="footer-value text-danger">{{summary.lateCount || 0}}次</text>
+      </view>
+      <view class="footer-item">
+        <text class="footer-label">早退:</text>
+        <text class="footer-value text-warning">{{summary.earlyLeaveCount || 0}}次</text>
+      </view>
+      <view class="footer-item">
+        <text class="footer-label">缺勤:</text>
+        <text class="footer-value text-danger">{{summary.absentCount || 0}}次</text>
+      </view>
+      <view class="footer-item">
+        <text class="footer-label">换班:</text>
+        <text class="footer-value text-info">{{summary.swapCount || 0}}次</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 图表区域 -->
+  <view class="chart-card card">
+    <view class="chart-tabs">
+      <van-tabs active="{{activeTab}}" bind:change="onTabChange">
+        <van-tab title="趋势图" name="trend">
+          <view class="chart-container">
+            <canvas type="2d" id="trendChart" class="chart"></canvas>
+          </view>
+        </van-tab>
+        <van-tab title="分布图" name="distribution">
+          <view class="chart-container">
+            <canvas type="2d" id="pieChart" class="chart"></canvas>
+          </view>
+        </van-tab>
+      </van-tabs>
+    </view>
+  </view>
+  
+  <!-- 团队统计列表（仅管理员） -->
+  <view class="team-stats card" wx:if="{{statsType === 'team' && teamStats.length > 0}}">
+    <view class="card-title">👥 成员工时排行</view>
+    <view class="member-list">
+      <view 
+        wx:for="{{teamStats}}" 
+        wx:key="userId"
+        class="member-item"
+      >
+        <view class="rank">{{index + 1}}</view>
+        <image class="member-avatar" src="{{item.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"/>
+        <view class="member-info">
+          <text class="member-name">{{item.realName}}</text>
+          <text class="member-dept">{{item.department}}</text>
+        </view>
+        <view class="member-stats">
+          <text class="member-hours">{{item.totalWorkHours}}h</text>
+          <text class="member-shifts">{{item.completedShifts}}/{{item.totalShifts}}班</text>
+          <text class="member-free-hours" wx:if="{{item.freeCheckHours > 0}}">自由{{item.freeCheckHours}}h</text>
+        </view>
+        <view class="completion-rate">
+          <text class="rate-text">{{item.completionRate}}%</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 个人明细 -->
+  <view class="detail-card card" wx:if="{{statsType === 'personal' && dailyStats.length > 0}}">
+    <view class="card-title">📅 每日明细</view>
+    <view class="daily-list">
+      <view wx:for="{{dailyStats}}" wx:key="date" class="daily-item">
+        <text class="daily-date">{{item.date}}</text>
+        <view class="daily-info">
+          <text class="daily-shifts">{{item.shifts}}班</text>
+          <text class="daily-hours">{{item.hours}}h</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 月份选择弹窗 -->
+  <van-popup show="{{showMonthPicker}}" position="bottom" bind:close="hideMonthPicker">
+    <van-picker
+      show-toolbar
+      title="选择月份"
+      columns="{{monthColumns}}"
+      default-index="{{currentMonthIndex}}"
+      bind:confirm="onMonthConfirm"
+      bind:cancel="hideMonthPicker"
+    />
+  </van-popup>
+  
+  <van-toast id="van-toast" />
+</view>

@@ -1,0 +1,126 @@
+/* 换班申请列表页样式 */
+
+.page-container {
+  min-height: 100vh;
+  background: var(--bg);
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* 标签页内容 */
+.tab-content {
+  padding: 20rpx;
+  min-height: 60vh;
+}
+
+/* 换班卡片 */
+.swap-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.swap-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid var(--border);
+}
+
+.swap-date {
+  font-size: 26rpx;
+  color: var(--text-light);
+}
+
+.swap-body {
+  margin-bottom: 20rpx;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.user-avatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+
+.user-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.reason-box {
+  background: #f8f8f8;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-top: 16rpx;
+}
+
+.reason-label {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  margin-bottom: 8rpx;
+  display: block;
+}
+
+.reason-text {
+  font-size: 28rpx;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.swap-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid var(--border);
+}
+
+.btn-approve {
+  margin-right: 16rpx;
+}
+
+/* 悬浮按钮 */
+.fab-btn {
+  position: fixed;
+  right: 40rpx;
+  bottom: 60rpx;
+  width: 200rpx;
+  height: 80rpx;
+  background: var(--primary);
+  border-radius: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 28rpx;
+  box-shadow: 0 8rpx 30rpx rgba(7, 193, 96, 0.4);
+  z-index: 100;
+}
+
+.fab-icon {
+  font-size: 36rpx;
+  margin-right: 8rpx;
+  font-weight: 300;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 40rpx;
+  color: var(--text-light);
+}

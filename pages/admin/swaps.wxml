@@ -1,0 +1,86 @@
+<!--pages/admin/swaps.wxml-->
+<view class="page-container">
+  <!-- 标签页 -->
+  <van-tabs active="{{activeTab}}" bind:change="onTabChange" sticky>
+    <van-tab title="待审批" name="pending">
+      <view class="tab-content">
+        <view wx:if="{{pendingList.length > 0}}">
+          <view wx:for="{{pendingList}}" wx:key="_id" class="swap-card">
+            <view class="swap-header">
+              <text class="swap-date">{{formatDateTime(item.createTime)}}</text>
+              <van-tag type="warning">待审批</van-tag>
+            </view>
+            <view class="swap-body">
+              <view class="user-row">
+                <image class="user-avatar" src="{{item.fromUser.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"/>
+                <text class="user-name">{{item.fromUser.realName || '未知'}}</text>
+                <text class="arrow-icon">→</text>
+                <image class="user-avatar" src="{{item.toUser.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"/>
+                <text class="user-name">{{item.toUser.realName || '未知'}}</text>
+              </view>
+              <view class="reason-box" wx:if="{{item.reason}}">
+                <text class="reason-label">换班理由：</text>
+                <text class="reason-text">{{item.reason}}</text>
+              </view>
+            </view>
+            <view class="swap-footer">
+              <van-button type="primary" size="small" bindtap="approveSwap" data-id="{{item._id}}" custom-class="btn-approve">同意</van-button>
+              <van-button type="danger" size="small" bindtap="rejectSwap" data-id="{{item._id}}">拒绝</van-button>
+            </view>
+          </view>
+        </view>
+        <view wx:else class="empty-state">
+          <van-empty description="暂无待审批申请" />
+        </view>
+      </view>
+    </van-tab>
+    
+    <van-tab title="已处理" name="processed">
+      <view class="tab-content">
+        <view wx:if="{{processedList.length > 0}}">
+          <view wx:for="{{processedList}}" wx:key="_id" class="swap-card">
+            <view class="swap-header">
+              <text class="swap-date">{{formatDateTime(item.createTime)}}</text>
+              <van-tag type="{{getStatusType(item.status)}}">{{getStatusText(item.status)}}</van-tag>
+            </view>
+            <view class="swap-body">
+              <view class="user-row">
+                <image class="user-avatar" src="{{item.fromUser.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"/>
+                <text class="user-name">{{item.fromUser.realName || '未知'}}</text>
+                <text class="arrow-icon">→</text>
+                <image class="user-avatar" src="{{item.toUser.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"/>
+                <text class="user-name">{{item.toUser.realName || '未知'}}</text>
+              </view>
+              <view class="reason-box" wx:if="{{item.reason}}">
+                <text class="reason-label">换班理由：</text>
+                <text class="reason-text">{{item.reason}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view wx:else class="empty-state">
+          <van-empty description="暂无已处理申请" />
+        </view>
+      </view>
+    </van-tab>
+  </van-tabs>
+  
+  <!-- 拒绝理由弹窗 -->
+  <van-dialog
+    use-slot
+    title="拒绝理由"
+    show="{{showRejectDialog}}"
+    show-cancel-button
+    bind:confirm="confirmReject"
+    bind:cancel="cancelReject"
+  >
+    <van-field
+      type="textarea"
+      value="{{rejectRemark}}"
+      placeholder="请输入拒绝理由（可选）"
+      bind:change="onRejectRemarkChange"
+    />
+  </van-dialog>
+  
+  <van-toast id="van-toast" />
+</view>

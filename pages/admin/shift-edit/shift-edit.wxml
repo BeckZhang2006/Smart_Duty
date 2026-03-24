@@ -1,0 +1,136 @@
+<view class="page-container">
+  <view class="form-card card">
+    <view class="form-title">{{isEdit ? '编辑班次' : '新增班次'}}</view>
+    
+    <view class="form-item">
+      <view class="form-label">班次名称 <text class="required">*</text></view>
+      <van-field
+        value="{{form.name}}"
+        placeholder="例如：早班、晚班"
+        border="{{false}}"
+        bind:change="onNameChange"
+      />
+    </view>
+    
+    <!-- 多时间段配置 -->
+    <view class="form-item">
+      <view class="form-label time-slots-header">
+        <text>值班时间段</text>
+        <text class="add-slot-link" bindtap="addTimeSlot">+ 添加时段</text>
+      </view>
+      
+      <view class="time-slots-list">
+        <view 
+          wx:for="{{form.timeSlots}}" 
+          wx:key="index"
+          class="time-slot-item"
+        >
+          <view class="slot-number">时段{{index + 1}}</view>
+          <view class="slot-times">
+            <van-field
+              value="{{item.startTime}}"
+              placeholder="开始时间"
+              border="{{false}}"
+              data-index="{{index}}"
+              bind:change="onTimeSlotStartChange"
+            />
+            <text class="slot-separator">至</text>
+            <van-field
+              value="{{item.endTime}}"
+              placeholder="结束时间"
+              border="{{false}}"
+              data-index="{{index}}"
+              bind:change="onTimeSlotEndChange"
+            />
+          </view>
+          <view 
+            wx:if="{{form.timeSlots.length > 1}}"
+            class="slot-delete"
+            data-index="{{index}}"
+            bindtap="removeTimeSlot"
+          >
+            ✕
+          </view>
+        </view>
+      </view>
+      
+      <view class="time-slots-tip">
+        提示：可添加多个时间段，如白天班可包含早、中、晚三个时段
+      </view>
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">打卡地点</view>
+      <van-field
+        value="{{form.location.name}}"
+        placeholder="例如：公司前台"
+        border="{{false}}"
+        bind:change="onLocationNameChange"
+      />
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">打卡范围（米）</view>
+      <van-field
+        value="{{form.location.radius}}"
+        type="number"
+        placeholder="例如：500"
+        border="{{false}}"
+        bind:change="onRadiusChange"
+      />
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">颜色标记</view>
+      <view class="color-list">
+        <view 
+          wx:for="{{colors}}" 
+          wx:key="value"
+          class="color-item {{form.color === item.value ? 'active' : ''}}"
+          style="background-color: {{item.value}};"
+          data-color="{{item.value}}"
+          bindtap="onColorSelect"
+        >
+          <text wx:if="{{form.color === item.value}}" class="color-check">✓</text>
+        </view>
+      </view>
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">备注说明</view>
+      <van-field
+        value="{{form.description}}"
+        type="textarea"
+        placeholder="请输入备注说明（选填）"
+        autosize="{{ { maxHeight: 100, minHeight: 80 } }}"
+        border="{{false}}"
+        bind:change="onDescriptionChange"
+      />
+    </view>
+  </view>
+  
+  <view class="action-bar">
+    <van-button 
+      type="primary" 
+      block
+      loading="{{loading}}"
+      bindtap="saveShift"
+    >
+      保存
+    </van-button>
+    
+    <van-button 
+      wx:if="{{isEdit}}"
+      type="danger" 
+      block
+      plain
+      style="margin-top: 20rpx;"
+      bindtap="deleteShift"
+    >
+      删除班次
+    </van-button>
+  </view>
+</view>
+
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" />

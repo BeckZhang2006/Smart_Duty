@@ -1,0 +1,285 @@
+/* 时间选择器 */
+.time-selector {
+  margin: 20rpx;
+}
+
+.selector-row {
+  display: flex;
+  gap: 30rpx;
+}
+
+.selector-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  background: #f8f8f8;
+  border-radius: 12rpx;
+}
+
+.selector-item .label {
+  font-size: 26rpx;
+  color: #999;
+  margin-right: 16rpx;
+}
+
+.selector-item .value {
+  flex: 1;
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.selector-item .arrow {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 汇总卡片 */
+.summary-card {
+  margin: 0 20rpx 20rpx;
+  background: linear-gradient(135deg, #07c160 0%, #05a350 100%);
+  color: #fff;
+}
+
+.summary-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  margin-bottom: 30rpx;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20rpx;
+}
+
+.summary-item {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12rpx;
+  padding: 24rpx 10rpx;
+}
+
+.summary-value {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+}
+
+.summary-value.text-primary { color: #fff; }
+.summary-value.text-success { color: #b7eb8f; }
+.summary-value.text-info { color: #91d5ff; }
+.summary-value.text-warning { color: #ffe58f; }
+
+.summary-label {
+  font-size: 24rpx;
+  opacity: 0.9;
+}
+
+.summary-footer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid rgba(255, 255, 255, 0.2);
+}
+
+.footer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-label {
+  font-size: 24rpx;
+  opacity: 0.8;
+  margin-bottom: 8rpx;
+}
+
+.footer-value {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+/* 自由打卡统计 */
+.free-check-stats {
+  margin-top: 30rpx;
+  padding: 20rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.2);
+}
+
+.free-check-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  margin-bottom: 16rpx;
+  opacity: 0.95;
+}
+
+.free-check-grid {
+  display: flex;
+  gap: 40rpx;
+}
+
+.free-check-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.free-check-value {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #ffe58f;
+}
+
+.free-check-label {
+  font-size: 24rpx;
+  opacity: 0.8;
+  margin-top: 4rpx;
+}
+
+/* 图表 */
+.chart-card {
+  margin: 0 20rpx 20rpx;
+}
+
+.chart-container {
+  padding: 30rpx 0;
+}
+
+.chart {
+  width: 100%;
+  height: 400rpx;
+}
+
+/* 团队统计 */
+.team-stats {
+  margin: 0 20rpx 20rpx;
+}
+
+.member-list {
+  margin-top: 20rpx;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.member-item:last-child {
+  border-bottom: none;
+}
+
+.rank {
+  width: 60rpx;
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #999;
+}
+
+.member-item:nth-child(1) .rank { color: #ff9500; }
+.member-item:nth-child(2) .rank { color: #999; }
+.member-item:nth-child(3) .rank { color: #cd7f32; }
+
+.member-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+
+.member-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.member-name {
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.member-dept {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+.member-stats {
+  text-align: right;
+  margin-right: 20rpx;
+}
+
+.member-hours {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #07c160;
+}
+
+.member-shifts {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.member-free-hours {
+  font-size: 22rpx;
+  color: #ff9500;
+  margin-top: 4rpx;
+}
+
+.completion-rate {
+  width: 100rpx;
+  text-align: right;
+}
+
+.rate-text {
+  font-size: 28rpx;
+  color: #07c160;
+  font-weight: 500;
+}
+
+/* 每日明细 */
+.detail-card {
+  margin: 0 20rpx 40rpx;
+}
+
+.daily-list {
+  margin-top: 20rpx;
+}
+
+.daily-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.daily-date {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.daily-info {
+  display: flex;
+  gap: 40rpx;
+}
+
+.daily-shifts, .daily-hours {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.daily-hours {
+  color: #07c160;
+  font-weight: 500;
+  min-width: 80rpx;
+  text-align: right;
+}

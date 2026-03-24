@@ -1,0 +1,142 @@
+.page-container {
+  padding: 20rpx 20rpx 100rpx;
+}
+
+.form-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+}
+
+.form-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 40rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.form-item {
+  margin-bottom: 30rpx;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+}
+
+.required {
+  color: #ff4d4f;
+}
+
+/* 多时间段 */
+.time-slots-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-slot-link {
+  color: #07c160;
+  font-size: 28rpx;
+}
+
+.time-slots-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.time-slot-item {
+  background: #f8f8f8;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.slot-number {
+  font-size: 26rpx;
+  color: #666;
+  width: 100rpx;
+  flex-shrink: 0;
+}
+
+.slot-times {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.slot-times van-field {
+  flex: 1;
+  background: #fff;
+  border-radius: 8rpx;
+}
+
+.slot-separator {
+  color: #999;
+  font-size: 24rpx;
+}
+
+.slot-delete {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff4d4f;
+  font-size: 32rpx;
+}
+
+.time-slots-tip {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 16rpx;
+  padding: 16rpx;
+  background: #f0f9eb;
+  border-radius: 8rpx;
+}
+
+.color-list {
+  display: flex;
+  gap: 20rpx;
+  flex-wrap: wrap;
+}
+
+.color-item {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4rpx solid transparent;
+  transition: all 0.3s;
+}
+
+.color-item.active {
+  border-color: #333;
+  transform: scale(1.1);
+}
+
+.color-check {
+  color: #fff;
+  font-size: 36rpx;
+  font-weight: bold;
+  text-shadow: 0 2rpx 4rpx rgba(0,0,0,0.3);
+}
+
+.action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx 30rpx;
+  background: #fff;
+  border-top: 1rpx solid #f0f0f0;
+}

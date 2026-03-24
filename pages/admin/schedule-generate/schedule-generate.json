@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "生成排班",
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index",
+    "van-toast": "@vant/weapp/toast/index"
+  }
+}

@@ -1,0 +1,104 @@
+<!--pages/admin/holidays/holidays.wxml-->
+<view class="page-container">
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading-container">
+    <van-loading type="spinner" size="40px" />
+  </view>
+  
+  <!-- 节假日列表 -->
+  <view wx:else class="holiday-list">
+    <view wx:if="{{holidays.length > 0}}">
+      <view wx:for="{{holidays}}" wx:key="_id" class="holiday-card">
+        <view class="holiday-header">
+          <view class="holiday-info">
+            <text class="holiday-date">{{formatDisplayDate(item.date)}}</text>
+            <van-tag type="{{getTypeColor(item.type)}}" size="mini">
+              {{getTypeText(item.type)}}
+            </van-tag>
+          </view>
+          <view class="holiday-actions">
+            <van-button type="danger" size="mini" plain bindtap="onDelete" data-id="{{item._id}}" data-name="{{item.name}}">
+              删除
+            </van-button>
+          </view>
+        </view>
+        <view class="holiday-body">
+          <text class="holiday-name">{{item.name}}</text>
+          <text class="holiday-full-date">{{item.date}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="empty-state">
+      <van-empty description="暂无节假日数据" />
+    </view>
+  </view>
+  
+  <!-- 添加按钮 -->
+  <view class="fab-btn" bindtap="showAddDialog">
+    <text class="fab-icon">+</text>
+  </view>
+  
+  <!-- 添加弹窗 -->
+  <van-dialog
+    use-slot
+    title="添加节假日"
+    show="{{showAddDialog}}"
+    show-cancel-button
+    bind:confirm="onSubmit"
+    bind:cancel="onCloseDialog"
+    bind:close="onCloseDialog"
+  >
+    <view class="dialog-content">
+      <!-- 日期选择 -->
+      <view class="form-item">
+        <text class="form-label">日期</text>
+        <van-cell
+          title="{{form.date || '请选择日期'}}"
+          is-link
+          bindtap="showDatePicker"
+        />
+        <van-popup show="{{showDatePicker}}" position="bottom" bind:close="onCloseDatePicker">
+          <van-datetime-picker
+            type="date"
+            value="{{currentDate}}"
+            min-date="{{minDate}}"
+            max-date="{{maxDate}}"
+            bind:confirm="onDateConfirm"
+            bind:cancel="onCloseDatePicker"
+          />
+        </van-popup>
+      </view>
+      
+      <!-- 名称输入 -->
+      <van-field
+        label="名称"
+        placeholder="请输入节假日名称"
+        value="{{form.name}}"
+        bind:change="onNameChange"
+        required
+      />
+      
+      <!-- 类型选择 -->
+      <view class="form-item">
+        <text class="form-label">类型</text>
+        <van-cell
+          title="{{getTypeText(form.type)}}"
+          is-link
+          bindtap="showTypePicker"
+        />
+        <van-popup show="{{showTypePicker}}" position="bottom" bind:close="onCloseTypePicker">
+          <van-picker
+            show-toolbar
+            title="选择类型"
+            columns="{{typeColumns}}"
+            bind:confirm="onTypeConfirm"
+            bind:cancel="onCloseTypePicker"
+          />
+        </van-popup>
+      </view>
+    </view>
+  </van-dialog>
+  
+  <van-toast id="van-toast" />
+  <van-dialog id="van-dialog" />
+</view>

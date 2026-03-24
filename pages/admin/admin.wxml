@@ -1,0 +1,140 @@
+<view class="page-container">
+  <!-- 顶部统计 -->
+  <view class="admin-header">
+    <view class="header-stats">
+      <view class="header-stat">
+        <text class="stat-value">{{overview.totalStaff}}</text>
+        <text class="stat-label">值班人员</text>
+      </view>
+      <view class="header-stat">
+        <text class="stat-value">{{overview.todayShifts}}</text>
+        <text class="stat-label">今日排班</text>
+      </view>
+      <view class="header-stat">
+        <text class="stat-value">{{overview.pendingSwaps}}</text>
+        <text class="stat-label">待审批换班</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 快捷操作 -->
+  <view class="quick-actions card">
+    <view class="card-title">⚡ 快捷操作</view>
+    <view class="action-grid">
+      <view class="action-item" bindtap="goToGenerateSchedule">
+        <view class="action-icon" style="background: #e6f7ff;">📅</view>
+        <text class="action-text">生成排班</text>
+      </view>
+      <view class="action-item" bindtap="goToManageSchedule">
+        <view class="action-icon" style="background: #f6ffed;">✏️</view>
+        <text class="action-text">排班管理</text>
+      </view>
+      <view class="action-item" bindtap="goToManageUsers">
+        <view class="action-icon" style="background: #fff7e6;">👥</view>
+        <text class="action-text">人员管理</text>
+      </view>
+      <view class="action-item" bindtap="goToManageShifts">
+        <view class="action-icon" style="background: #f9f0ff;">⚙️</view>
+        <text class="action-text">班次设置</text>
+      </view>
+      <view class="action-item" bindtap="goToApproveSwaps">
+        <view class="action-icon" style="background: #fff1f0;">🔄</view>
+        <text class="action-text">换班审批</text>
+      </view>
+      <view class="action-item" bindtap="goToStatistics">
+        <view class="action-icon" style="background: #e6fffb;">📊</view>
+        <text class="action-text">统计报表</text>
+      </view>
+      <view class="action-item" bindtap="goToHolidays">
+        <view class="action-icon" style="background: #f0f5ff;">🏖️</view>
+        <text class="action-text">节假日</text>
+      </view>
+      <view class="action-item" bindtap="goToNotices">
+        <view class="action-icon" style="background: #fff2f0;">📢</view>
+        <text class="action-text">公告管理</text>
+      </view>
+      <view class="action-item" bindtap="goToExport">
+        <view class="action-icon" style="background: #f0f9ff;">📥</view>
+        <text class="action-text">数据导出</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 今日排班概览 -->
+  <view class="today-schedule card">
+    <view class="card-header">
+      <text class="card-title">📋 今日排班概览</text>
+      <text class="view-all" bindtap="goToManageSchedule">查看全部 ></text>
+    </view>
+    
+    <view wx:if="{{todayAssignments.length > 0}}" class="schedule-list">
+      <view wx:for="{{todayAssignments}}" wx:key="_id" class="schedule-item">
+        <image class="staff-avatar" src="{{(item.userInfo && item.userInfo.avatarUrl) || '/images/default-avatar.png'}}"/>
+        <view class="staff-info">
+          <text class="staff-name">{{item.userInfo && item.userInfo.realName}}</text>
+          <text class="staff-dept">{{item.userInfo && item.userInfo.department}}</text>
+        </view>
+        <view class="shift-info">
+          <text class="shift-name">{{item.shiftInfo && item.shiftInfo.name}}</text>
+          <text class="shift-time">{{item.shiftInfo && item.shiftInfo.startTime}}-{{item.shiftInfo && item.shiftInfo.endTime}}</text>
+        </view>
+        <van-tag type="{{getStatusType(item.status)}}">{{getStatusText(item.status)}}</van-tag>
+      </view>
+    </view>
+    
+    <view wx:else class="empty-state">
+      <van-empty description="今日暂无排班"/>
+    </view>
+  </view>
+  
+  <!-- 待处理换班申请 -->
+  <view class="pending-swaps card" wx:if="{{pendingSwaps.length > 0}}">
+    <view class="card-header">
+      <text class="card-title">⏳ 待处理换班申请</text>
+      <text class="view-all" bindtap="goToApproveSwaps">查看全部 ></text>
+    </view>
+    
+    <view class="swap-list">
+      <view wx:for="{{pendingSwaps}}" wx:key="_id" class="swap-item">
+        <view class="swap-users">
+          <view class="swap-user">
+            <image class="user-avatar-small" src="{{(item.fromUser && item.fromUser.avatarUrl) || '/images/default-avatar.png'}}"/>
+            <text class="user-name">{{item.fromUser && item.fromUser.realName}}</text>
+          </view>
+          <text class="swap-arrow">➡️</text>
+          <view class="swap-user">
+            <image class="user-avatar-small" src="{{(item.toUser && item.toUser.avatarUrl) || '/images/default-avatar.png'}}"/>
+            <text class="user-name">{{item.toUser && item.toUser.realName}}</text>
+          </view>
+        </view>
+        <view class="swap-reason">{{item.reason}}</view>
+        <view class="swap-actions">
+          <van-button type="primary" size="small" bindtap="approveSwap" data-id="{{item._id}}">同意</van-button>
+          <van-button type="danger" size="small" bindtap="rejectSwap" data-id="{{item._id}}">拒绝</van-button>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 最近通知 -->
+  <view class="recent-notices card">
+    <view class="card-header">
+      <text class="card-title">📢 最近公告</text>
+      <text class="view-all" bindtap="goToNotices">管理 ></text>
+    </view>
+    
+    <view wx:if="{{recentNotices.length > 0}}" class="notice-list">
+      <view wx:for="{{recentNotices}}" wx:key="_id" class="notice-item">
+        <van-tag wx:if="{{item.isTop}}" type="danger" size="small">置顶</van-tag>
+        <text class="notice-title">{{item.title}}</text>
+        <text class="notice-time">{{formatTime(item.createTime)}}</text>
+      </view>
+    </view>
+    
+    <view wx:else class="empty-state">
+      <van-empty description="暂无公告"/>
+    </view>
+  </view>
+  
+  <van-toast id="van-toast" />
+</view>

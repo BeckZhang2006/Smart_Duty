@@ -1,0 +1,112 @@
+<view class="page-container">
+  <view class="header">
+    <view class="title">周模板排班生成</view>
+    <view class="subtitle">配置每周值班人员，系统将自动生成排班表</view>
+  </view>
+
+  <!-- 日期范围选择 -->
+  <view class="section card">
+    <view class="section-title">📅 日期范围</view>
+    <view class="date-picker-row">
+      <view class="date-picker">
+        <text class="date-label">开始日期</text>
+        <picker mode="date" value="{{startDate}}" bindchange="onStartDateChange">
+          <view class="date-value">{{startDate || '请选择'}}</view>
+        </picker>
+      </view>
+      <text class="date-separator">至</text>
+      <view class="date-picker">
+        <text class="date-label">结束日期</text>
+        <picker mode="date" value="{{endDate}}" bindchange="onEndDateChange">
+          <view class="date-value">{{endDate || '请选择'}}</view>
+        </picker>
+      </view>
+    </view>
+  </view>
+
+  <!-- 周模板配置 -->
+  <view class="section card">
+    <view class="section-title">
+      <text>👥 周模板配置</text>
+      <view class="template-actions">
+        <text class="action-link" bindtap="loadDefaultTemplate">加载默认</text>
+        <text class="action-link" bindtap="clearTemplate">清空</text>
+      </view>
+    </view>
+
+    <view class="week-template">
+      <view class="template-header">
+        <text class="header-day">星期</text>
+        <text class="header-shift">白天班</text>
+        <text class="header-shift">晚上班</text>
+      </view>
+      
+      <view 
+        wx:for="{{weekTemplate}}" 
+        wx:key="index"
+        class="template-row"
+      >
+        <text class="day-name">{{weekdays[index]}}</text>
+        
+        <view class="staff-picker">
+          <picker 
+            range="{{staffList}}" 
+            range-key="realName"
+            value="{{0}}"
+            data-index="{{index}}"
+            bindchange="onDayStaffChange"
+          >
+            <view class="picker-value {{item.day ? '' : 'empty'}}">
+              {{item.day || '请选择'}}
+            </view>
+          </picker>
+        </view>
+        
+        <view class="staff-picker">
+          <picker 
+            range="{{staffList}}" 
+            range-key="realName"
+            value="{{0}}"
+            data-index="{{index}}"
+            bindchange="onNightStaffChange"
+          >
+            <view class="picker-value {{item.night ? '' : 'empty'}}">
+              {{item.night || '请选择'}}
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 班次说明 -->
+  <view class="section card info-card">
+    <view class="section-title">ℹ️ 班次说明</view>
+    <view class="shift-info">
+      <view class="shift-item">
+        <text class="shift-name">白天班</text>
+        <text class="shift-time">07:40 - 18:00</text>
+        <text class="shift-desc">包含早、中、晚三个时段</text>
+      </view>
+      <view class="shift-item">
+        <text class="shift-name">晚上班</text>
+        <text class="shift-time">18:40 - 21:00</text>
+        <text class="shift-desc">晚间值班时段</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 生成按钮 -->
+  <view class="action-bar">
+    <van-button 
+      type="primary" 
+      block
+      loading="{{loading}}"
+      bindtap="generateSchedule"
+    >
+      生成排班
+    </van-button>
+  </view>
+</view>
+
+<van-toast id="van-toast" />

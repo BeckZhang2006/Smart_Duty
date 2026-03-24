@@ -1,0 +1,65 @@
+.page-container {
+  padding: 20rpx 20rpx 100rpx;
+}
+
+.form-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+}
+
+.form-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 40rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.form-item {
+  margin-bottom: 30rpx;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+}
+
+.switch-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.form-tip {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.required {
+  color: #ff4d4f;
+}
+
+.action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx 30rpx;
+  background: #fff;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+/* 调整 Vant Radio 样式 */
+van-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+van-radio {
+  margin-right: 20rpx;
+  margin-bottom: 10rpx;
+}

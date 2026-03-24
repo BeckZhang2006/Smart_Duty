@@ -1,0 +1,65 @@
+<view class="page-container">
+  <view class="form-card card">
+    <view class="form-title">{{isEdit ? '编辑公告' : '新建公告'}}</view>
+    
+    <view class="form-item">
+      <view class="form-label">公告标题 <text class="required">*</text></view>
+      <van-field
+        value="{{form.title}}"
+        placeholder="请输入公告标题"
+        border="{{false}}"
+        bind:change="onTitleChange"
+      />
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">公告内容 <text class="required">*</text></view>
+      <van-field
+        value="{{form.content}}"
+        type="textarea"
+        placeholder="请输入公告内容"
+        autosize="{{ { maxHeight: 200, minHeight: 120 } }}"
+        border="{{false}}"
+        bind:change="onContentChange"
+      />
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">公告类型</view>
+      <van-cell-group>
+        <van-cell title="{{form.type}}" border="{{false}}">
+          <van-radio-group value="{{form.type}}" bind:change="onTypeChange" direction="horizontal">
+            <van-radio name="系统公告" icon-size="36rpx">系统公告</van-radio>
+            <van-radio name="排班通知" icon-size="36rpx">排班通知</van-radio>
+            <van-radio name="其他" icon-size="36rpx">其他</van-radio>
+          </van-radio-group>
+        </van-cell>
+      </van-cell-group>
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label switch-label">
+        <text>是否置顶</text>
+        <van-switch
+          checked="{{form.isTop}}"
+          size="24px"
+          bind:change="onIsTopChange"
+        />
+      </view>
+      <view class="form-tip">置顶公告会显示在列表最前面</view>
+    </view>
+  </view>
+  
+  <view class="action-bar">
+    <van-button 
+      type="primary" 
+      block
+      loading="{{loading}}"
+      bindtap="saveNotice"
+    >
+      保存
+    </van-button>
+  </view>
+</view>
+
+<van-toast id="van-toast" />

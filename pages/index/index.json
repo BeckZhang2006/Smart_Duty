@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "排班日历",
+  "navigationStyle": "default",
+  "usingComponents": {
+    "van-calendar": "@vant/weapp/calendar/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-tag": "@vant/weapp/tag/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-button": "@vant/weapp/button/index"
+  }
+}

@@ -1,0 +1,214 @@
+<view class="page-container">
+  <!-- 当前班次信息 -->
+  <view class="duty-card card" wx:if="{{assignment}}">
+    <view class="duty-title">{{assignment.shiftInfo && assignment.shiftInfo.name}} 交接班</view>
+    <view class="duty-info">
+      <text class="duty-date">{{assignment.date}}</text>
+      <text class="duty-time">{{assignment.shiftInfo && assignment.shiftInfo.startTime}} - {{assignment.shiftInfo && assignment.shiftInfo.endTime}}</text>
+    </view>
+  </view>
+  
+  <!-- 值班状况 -->
+  <view class="section-card card">
+    <view class="section-title">📋 值班状况</view>
+    <van-field
+      type="textarea"
+      placeholder="请描述值班期间的主要工作、特殊情况等"
+      autosize="{{ { maxHeight: 200, minHeight: 120 } }}"
+      value="{{handover.content}}"
+      bind:change="onContentChange"
+    />
+  </view>
+  
+  <!-- 交接物品清单 -->
+  <view class="section-card card">
+    <view class="section-title flex-between">
+      <text>📦 交接物品清单</text>
+      <van-button type="primary" size="small" bindtap="addItem">添加物品</van-button>
+    </view>
+    
+    <view wx:if="{{handover.items.length > 0}}" class="item-list">
+      <view wx:for="{{handover.items}}" wx:key="index" class="item-row">
+        <view class="item-info">
+          <van-field
+            value="{{item.name}}"
+            placeholder="物品名称"
+            border="{{false}}"
+            data-index="{{index}}"
+            bind:change="onItemNameChange"
+          />
+        </view>
+        <view class="item-count">
+          <van-stepper 
+            value="{{item.count}}" 
+            min="1"
+            data-index="{{index}}"
+            bind:change="onItemCountChange"
+          />
+        </view>
+        <view class="item-delete" bindtap="deleteItem" data-index="{{index}}">
+          <text class="delete-icon">🗑️</text>
+        </view>
+      </view>
+    </view>
+    
+    <view wx:else class="empty-items">
+      <text class="empty-text">暂无交接物品，点击上方按钮添加</text>
+    </view>
+  </view>
+  
+  <!-- 设备状态 -->
+  <view class="section-card card">
+    <view class="section-title">🔧 设备状态</view>
+    <van-checkbox-group value="{{equipmentStatus}}" bind:change="onEquipmentChange">
+      <van-checkbox name="power">电源正常</van-checkbox>
+      <van-checkbox name="network">网络正常</van-checkbox>
+      <van-checkbox name="phone">电话正常</van-checkbox>
+      <van-checkbox name="computer">电脑正常</van-checkbox>
+      <van-checkbox name="monitor">监控正常</van-checkbox>
+      <van-checkbox name="door">门禁正常</van-checkbox>
+    </van-checkbox-group>
+    
+    <van-field
+      label="异常说明"
+      placeholder="如有设备异常，请说明具体情况"
+      value="{{handover.equipmentRemark}}"
+      bind:change="onEquipmentRemarkChange"
+      border="{{false}}"
+    />
+  </view>
+  
+  <!-- 待办事项 -->
+  <view class="section-card card">
+    <view class="section-title flex-between">
+      <text>📌 待办事项</text>
+      <van-button type="primary" size="small" bindtap="addTodo">添加事项</van-button>
+    </view>
+    
+    <view wx:if="{{handover.todos.length > 0}}" class="todo-list">
+      <view wx:for="{{handover.todos}}" wx:key="index" class="todo-row">
+        <van-checkbox 
+          value="{{item.done}}" 
+          data-index="{{index}}"
+          bind:change="onTodoDoneChange"
+        >
+          <text class="{{item.done ? 'done' : ''}}">{{item.content}}</text>
+        </van-checkbox>
+        <text class="delete-icon" bindtap="deleteTodo" data-index="{{index}}">🗑️</text>
+      </view>
+    </view>
+    
+    <view wx:else class="empty-items">
+      <text class="empty-text">暂无待办事项</text>
+    </view>
+  </view>
+  
+  <!-- 备注 -->
+  <view class="section-card card">
+    <view class="section-title">📝 其他备注</view>
+    <van-field
+      type="textarea"
+      placeholder="其他需要交接或说明的事项"
+      autosize="{{ { maxHeight: 150, minHeight: 100 } }}"
+      value="{{handover.remarks}}"
+      bind:change="onRemarksChange"
+    />
+  </view>
+  
+  <!-- 签名确认 -->
+  <view class="section-card card">
+    <view class="section-title">✍️ 交接人签名</view>
+    <view class="signature-area" bindtap="showSignaturePad">
+      <image wx:if="{{handover.signature}}" src="{{handover.signature}}" mode="aspectFit"/>
+      <text wx:else class="signature-placeholder">点击此处签名</text>
+    </view>
+  </view>
+  
+  <!-- 提交按钮 -->
+  <view class="submit-area">
+    <van-button 
+      type="primary" 
+      size="large" 
+      round 
+      block
+      bindtap="submitHandover"
+      loading="{{isSubmitting}}"
+    >提交交接班</van-button>
+  </view>
+  
+  <!-- 添加物品弹窗 -->
+  <van-dialog
+    use-slot
+    title="添加物品"
+    show="{{showItemDialog}}"
+    show-cancel-button
+    bind:confirm="confirmAddItem"
+    bind:cancel="cancelAddItem"
+  >
+    <view class="dialog-content">
+      <van-field
+        label="物品名称"
+        placeholder="请输入物品名称"
+        value="{{newItem.name}}"
+        bind:change="onNewItemNameChange"
+      />
+      <van-field
+        label="数量"
+        type="number"
+        value="{{newItem.count}}"
+        bind:change="onNewItemCountChange"
+      />
+    </view>
+  </van-dialog>
+  
+  <!-- 添加待办弹窗 -->
+  <van-dialog
+    use-slot
+    title="添加待办事项"
+    show="{{showTodoDialog}}"
+    show-cancel-button
+    bind:confirm="confirmAddTodo"
+    bind:cancel="cancelAddTodo"
+  >
+    <view class="dialog-content">
+      <van-field
+        type="textarea"
+        placeholder="请输入待办事项内容"
+        value="{{newTodo}}"
+        bind:change="onNewTodoChange"
+        autosize
+      />
+    </view>
+  </van-dialog>
+  
+  <!-- 签名板弹窗 -->
+  <van-popup 
+    show="{{showSignaturePad}}" 
+    position="bottom" 
+    custom-style="height: 60%"
+    bind:close="hideSignaturePad"
+    close-on-click-overlay="{{false}}"
+  >
+    <view class="signature-pad">
+      <view class="signature-header">
+        <text>请在下方签名</text>
+        <text class="clear-btn" bindtap="clearSignature">清空</text>
+      </view>
+      <canvas 
+        type="2d" 
+        id="signatureCanvas" 
+        class="signature-canvas"
+        disable-scroll="{{true}}"
+        bindtouchstart="onTouchStart"
+        bindtouchmove="onTouchMove"
+        bindtouchend="onTouchEnd"
+      ></canvas>
+      <view class="signature-footer">
+        <van-button type="default" bindtap="hideSignaturePad">取消</van-button>
+        <van-button type="primary" bindtap="saveSignature">确认</van-button>
+      </view>
+    </view>
+  </van-popup>
+  
+  <van-toast id="van-toast" />
+</view>

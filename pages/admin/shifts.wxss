@@ -1,0 +1,101 @@
+/* pages/admin/shifts.wxss */
+.page-container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  padding: 20rpx;
+}
+
+.shift-list {
+  padding-bottom: 140rpx;
+}
+
+.shift-card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.shift-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.shift-title {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.shift-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.shift-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+}
+
+.info-label {
+  width: 100rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.info-value {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.time-slots {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+.time-slot-tag {
+  background: #e3f2fd;
+  color: #1976d2;
+  font-size: 24rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 8rpx;
+}
+
+.empty-state {
+  padding-top: 200rpx;
+}
+
+.fab-btn {
+  position: fixed;
+  right: 40rpx;
+  bottom: 100rpx;
+  width: 100rpx;
+  height: 100rpx;
+  background: linear-gradient(135deg, #07c160 0%, #05a350 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 20rpx rgba(7, 193, 96, 0.4);
+  z-index: 100;
+}
+
+.fab-icon {
+  color: #fff;
+  font-size: 48rpx;
+  font-weight: 300;
+}

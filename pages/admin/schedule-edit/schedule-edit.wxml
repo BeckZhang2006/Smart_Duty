@@ -1,0 +1,164 @@
+<view class="page-container">
+  <!-- 当前排班信息卡片 -->
+  <view class="info-card card" wx:if="{{assignmentInfo}}">
+    <view class="info-title">当前排班信息</view>
+    <view class="info-content">
+      <view class="info-item">
+        <text class="info-label">日期：</text>
+        <text class="info-value">{{assignmentInfo.date}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">班次：</text>
+        <text class="info-value">{{(assignmentInfo.shiftInfo && assignmentInfo.shiftInfo.name) || '未知'}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">人员：</text>
+        <text class="info-value">{{(assignmentInfo.userInfo && assignmentInfo.userInfo.realName) || '未知'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 编辑表单 -->
+  <view class="form-card card">
+    <view class="form-title">{{assignmentId ? '修改排班' : '新建排班'}}</view>
+    
+    <!-- 日期选择 -->
+    <view class="form-item">
+      <view class="form-label">日期 <text class="required">*</text></view>
+      <van-cell
+        title="{{form.date || '请选择日期'}}"
+        is-link
+        bind:click="showDatePicker"
+        class="picker-cell {{!form.date ? 'placeholder' : ''}}"
+      />
+    </view>
+    
+    <!-- 班次选择 -->
+    <view class="form-item">
+      <view class="form-label">班次 <text class="required">*</text></view>
+      <van-cell
+        title="{{selectedShiftName}}"
+        is-link
+        bind:click="showShiftPicker"
+        class="picker-cell {{!form.shiftId ? 'placeholder' : ''}}"
+      />
+    </view>
+    
+    <!-- 人员选择 -->
+    <view class="form-item">
+      <view class="form-label">值班人员 <text class="required">*</text></view>
+      <van-cell
+        title="{{selectedUserName}}"
+        is-link
+        bind:click="showUserPicker"
+        class="picker-cell {{!form.userId ? 'placeholder' : ''}}"
+      />
+    </view>
+  </view>
+
+  <!-- 班次详情预览 -->
+  <view class="preview-card card" wx:if="{{form.shiftId}}">
+    <view class="preview-title">班次详情</view>
+    <view wx:for="{{shifts}}" wx:key="_id" wx:if="{{item._id === form.shiftId}}">
+      <view class="preview-item">
+        <text class="preview-label">班次名称：</text>
+        <text class="preview-value">{{item.name}}</text>
+      </view>
+      <view class="preview-item" wx:if="{{item.startTime && item.endTime}}">
+        <text class="preview-label">值班时间：</text>
+        <text class="preview-value">{{item.startTime}} - {{item.endTime}}</text>
+      </view>
+      <view class="preview-item" wx:if="{{item.timeSlots && item.timeSlots.length > 0}}">
+        <text class="preview-label">时间段：</text>
+        <view class="time-slots">
+          <view wx:for="{{item.timeSlots}}" wx:for-item="slot" wx:for-index="slotIndex" wx:key="slotIndex" class="time-slot">
+            {{slot.startTime}} - {{slot.endTime}}
+          </view>
+        </view>
+      </view>
+      <view class="preview-item" wx:if="{{item.location && item.location.name}}">
+        <text class="preview-label">打卡地点：</text>
+        <text class="preview-value">{{item.location.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 人员详情预览 -->
+  <view class="preview-card card" wx:if="{{form.userId}}">
+    <view class="preview-title">人员详情</view>
+    <view wx:for="{{users}}" wx:key="_id" wx:if="{{item._id === form.userId}}">
+      <view class="preview-item">
+        <text class="preview-label">姓名：</text>
+        <text class="preview-value">{{item.realName || item.nickName || '未命名'}}</text>
+      </view>
+      <view class="preview-item" wx:if="{{item.department}}">
+        <text class="preview-label">部门：</text>
+        <text class="preview-value">{{item.department}}</text>
+      </view>
+      <view class="preview-item" wx:if="{{item.phone}}">
+        <text class="preview-label">电话：</text>
+        <text class="preview-value">{{item.phone}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-bar">
+    <van-button 
+      type="primary" 
+      block
+      loading="{{loading}}"
+      bindtap="saveAssignment"
+    >
+      {{assignmentId ? '保存修改' : '创建排班'}}
+    </van-button>
+    
+    <van-button 
+      wx:if="{{assignmentId}}"
+      type="danger" 
+      block
+      plain
+      style="margin-top: 20rpx;"
+      bindtap="deleteAssignment"
+    >
+      删除排班
+    </van-button>
+  </view>
+</view>
+
+<!-- 日期选择弹窗 -->
+<van-popup show="{{showDatePicker}}" position="bottom" bind:close="hideDatePicker">
+  <van-datetime-picker
+    type="date"
+    value="{{currentDate}}"
+    min-date="{{minDate}}"
+    max-date="{{maxDate}}"
+    bind:confirm="onDateConfirm"
+    bind:cancel="hideDatePicker"
+  />
+</van-popup>
+
+<!-- 班次选择弹窗 -->
+<van-popup show="{{showShiftPicker}}" position="bottom" bind:close="hideShiftPicker">
+  <van-picker
+    show-toolbar
+    title="选择班次"
+    columns="{{shiftColumns}}"
+    bind:confirm="onShiftConfirm"
+    bind:cancel="hideShiftPicker"
+  />
+</van-popup>
+
+<!-- 人员选择弹窗 -->
+<van-popup show="{{showUserPicker}}" position="bottom" bind:close="hideUserPicker">
+  <van-picker
+    show-toolbar
+    title="选择值班人员"
+    columns="{{userColumns}}"
+    bind:confirm="onUserConfirm"
+    bind:cancel="hideUserPicker"
+  />
+</van-popup>
+
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" />

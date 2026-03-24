@@ -1,0 +1,152 @@
+/* 排班管理页样式 */
+
+.page-container {
+  min-height: 100vh;
+  background: var(--bg);
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* 顶部栏 */
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+
+.month-selector {
+  display: flex;
+  align-items: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.month-text {
+  margin-right: 8rpx;
+}
+
+.arrow {
+  font-size: 24rpx;
+  color: var(--text-light);
+}
+
+/* 统计栏 */
+.stats-bar {
+  display: flex;
+  justify-content: space-around;
+  background: #fff;
+  padding: 30rpx;
+  margin: 0 20rpx 20rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+}
+
+/* 排班列表 */
+.schedule-list {
+  padding: 0 20rpx;
+}
+
+.schedule-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid var(--border);
+}
+
+.schedule-date {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.schedule-body {
+  margin-bottom: 20rpx;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.info-label {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+  width: 120rpx;
+}
+
+.info-value {
+  font-size: 28rpx;
+  color: var(--text);
+  flex: 1;
+}
+
+.shift-name {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.user-tag {
+  display: flex;
+  align-items: center;
+}
+
+.mini-avatar {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  margin-right: 12rpx;
+}
+
+.schedule-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 20rpx;
+  border-top: 1rpx solid var(--border);
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 40rpx;
+  color: var(--text-light);
+}

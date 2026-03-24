@@ -1,0 +1,104 @@
+/* pages/admin/holidays/holidays.wxss */
+.page-container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  padding: 20rpx;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400rpx;
+}
+
+.holiday-list {
+  padding-bottom: 140rpx;
+}
+
+.holiday-card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.holiday-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.holiday-info {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.holiday-date {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.holiday-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.holiday-name {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.holiday-full-date {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.empty-state {
+  padding-top: 200rpx;
+}
+
+.fab-btn {
+  position: fixed;
+  right: 40rpx;
+  bottom: 100rpx;
+  width: 100rpx;
+  height: 100rpx;
+  background: linear-gradient(135deg, #07c160 0%, #05a350 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 20rpx rgba(7, 193, 96, 0.4);
+  z-index: 100;
+}
+
+.fab-icon {
+  color: #fff;
+  font-size: 48rpx;
+  font-weight: 300;
+}
+
+/* 弹窗样式 */
+.dialog-content {
+  padding: 20rpx 30rpx;
+}
+
+.form-item {
+  margin-bottom: 20rpx;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  color: #646566;
+  margin-bottom: 16rpx;
+  padding-left: 32rpx;
+}

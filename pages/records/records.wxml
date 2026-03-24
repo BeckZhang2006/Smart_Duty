@@ -1,0 +1,113 @@
+<!--pages/records/records.wxml-->
+<view class="page-container">
+  <!-- 筛选栏 -->
+  <view class="filter-bar">
+    <view class="filter-item" bindtap="showMonthPicker">
+      <text>{{currentYear}}年{{currentMonth}}月</text>
+      <text class="arrow">▼</text>
+    </view>
+    <view class="filter-item" bindtap="showStatusFilter">
+      <text>{{statusFilterText}}</text>
+      <text class="arrow">▼</text>
+    </view>
+  </view>
+  
+  <!-- 打卡记录列表 -->
+  <view class="records-list">
+    <view wx:if="{{records.length > 0}}">
+      <view wx:for="{{records}}" wx:key="_id" class="record-card" data-record="{{item}}">
+        <!-- 用户信息（管理员可见） -->
+        <view class="user-info" wx:if="{{isAdmin && item.userInfo}}">
+          <image src="{{item.userInfo.avatarUrl || '/images/default-avatar.png'}}" class="user-avatar" mode="aspectFill" />
+          <text class="user-name">{{item.userInfo.realName || item.userInfo.nickName || '未知用户'}}</text>
+        </view>
+        
+        <view class="record-header">
+          <text class="record-date">{{item.date}}</text>
+          <van-tag type="{{getStatusType(item.status)}}">{{getStatusText(item.status)}}</van-tag>
+        </view>
+        <view class="record-body">
+          <view class="shift-info">
+            <text class="shift-name">{{item.displayShiftName || '未知班次'}}</text>
+            <text class="shift-time">{{item.displayTimeRange || ''}}</text>
+          </view>
+          
+          <!-- 签到信息 -->
+          <view class="check-detail" wx:if="{{item.checkInTime}}">
+            <view class="check-detail-header">
+              <text class="check-label">签到</text>
+              <text class="check-time">{{formatDateTime(item.checkInTime)}}</text>
+              <van-tag wx:if="{{item.isLate}}" type="danger" size="mini">迟到</van-tag>
+            </view>
+            <!-- 签到照片 -->
+            <view class="check-photo" wx:if="{{item.checkInPhoto}}" bindtap="previewImage" data-url="{{item.checkInPhoto}}" data-record="{{item}}">
+              <image src="{{item.checkInPhoto}}" mode="aspectFill" class="photo-thumb" />
+              <view class="photo-hint">点击查看签到照片</view>
+            </view>
+            <view class="check-distance" wx:if="{{item.checkInDistance}}">
+              打卡距离：{{item.checkInDistance}}米
+            </view>
+          </view>
+          
+          <!-- 签退信息 -->
+          <view class="check-detail" wx:if="{{item.checkOutTime}}">
+            <view class="check-detail-header">
+              <text class="check-label">签退</text>
+              <text class="check-time">{{formatDateTime(item.checkOutTime)}}</text>
+              <van-tag wx:if="{{item.isEarlyLeave}}" type="warning" size="mini">早退</van-tag>
+            </view>
+            <!-- 签退照片 -->
+            <view class="check-photo" wx:if="{{item.checkOutPhoto}}" bindtap="previewImage" data-url="{{item.checkOutPhoto}}" data-record="{{item}}">
+              <image src="{{item.checkOutPhoto}}" mode="aspectFill" class="photo-thumb" />
+              <view class="photo-hint">点击查看签退照片</view>
+            </view>
+            <view class="check-distance" wx:if="{{item.checkOutDistance}}">
+              打卡距离：{{item.checkOutDistance}}米
+            </view>
+          </view>
+          
+          <!-- 工时 -->
+          <view class="work-hours" wx:if="{{item.workHours}}">
+            <text class="work-hours-label">工时</text>
+            <text class="work-hours-value">{{item.workHours}} 小时</text>
+          </view>
+          
+          <!-- 备注 -->
+          <view class="remark-info" wx:if="{{item.remark}}">
+            <text class="remark-label">备注：</text>
+            <text class="remark-content">{{item.remark}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="empty-state">
+      <van-empty description="暂无打卡记录" />
+    </view>
+  </view>
+  
+  <!-- 月份选择弹窗 -->
+  <van-popup show="{{showMonthPicker}}" position="bottom" bind:close="hideMonthPicker">
+    <van-picker
+      show-toolbar
+      title="选择月份"
+      columns="{{monthColumns}}"
+      default-index="{{currentMonthIndex}}"
+      bind:confirm="onMonthConfirm"
+      bind:cancel="hideMonthPicker"
+    />
+  </van-popup>
+  
+  <!-- 状态筛选弹窗 -->
+  <van-popup show="{{showStatusPicker}}" position="bottom" bind:close="hideStatusPicker">
+    <van-picker
+      show-toolbar
+      title="选择状态"
+      columns="{{statusColumns}}"
+      default-index="{{statusIndex}}"
+      bind:confirm="onStatusConfirm"
+      bind:cancel="hideStatusPicker"
+    />
+  </van-popup>
+  
+  <van-toast id="van-toast" />
+</view>

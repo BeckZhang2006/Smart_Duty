@@ -1,0 +1,92 @@
+/* pages/admin/swaps.wxss */
+.page-container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.tab-content {
+  padding: 20rpx;
+}
+
+.swap-card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.swap-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.swap-date {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.swap-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.user-avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+}
+
+.user-name {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.arrow-icon {
+  font-size: 32rpx;
+  color: #999;
+}
+
+.reason-box {
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
+  padding: 16rpx;
+}
+
+.reason-label {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.reason-text {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.swap-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16rpx;
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f5f5f5;
+}
+
+.btn-approve {
+  margin-right: 16rpx;
+}
+
+.empty-state {
+  padding-top: 200rpx;
+}

@@ -1,0 +1,142 @@
+<view class="page-container">
+  <!-- 用户信息 -->
+  <view class="user-card">
+    <view class="user-bg">
+      <image class="user-avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"/>
+      <view class="user-info">
+        <text class="user-name">{{userInfo.realName || '未设置姓名'}}</text>
+        <text class="user-dept">{{userInfo.department || ''}}</text>
+        <van-tag wx:if="{{isAdmin}}" type="danger" class="role-tag">管理员</van-tag>
+        <van-tag wx:else type="primary" class="role-tag">员工</van-tag>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 个人数据 -->
+  <view class="stats-card card">
+    <view class="stats-grid">
+      <view class="stats-item" bindtap="goToMySchedule">
+        <text class="stats-value">{{stats.monthShifts}}</text>
+        <text class="stats-label">本月排班</text>
+      </view>
+      <view class="stats-item" bindtap="goToMyRecords">
+        <text class="stats-value">{{stats.completedShifts}}</text>
+        <text class="stats-label">已完成</text>
+      </view>
+      <view class="stats-item">
+        <text class="stats-value">{{stats.totalHours}}</text>
+        <text class="stats-label">累计工时</text>
+      </view>
+      <view class="stats-item">
+        <text class="stats-value">{{stats.pendingSwaps}}</text>
+        <text class="stats-label">待处理换班</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 功能菜单 -->
+  <view class="menu-card card">
+    <van-cell-group border="{{false}}">
+      <van-cell 
+        title="我的排班" 
+        icon="calendar-o" 
+        is-link 
+        bindtap="goToMySchedule"
+      />
+      <van-cell 
+        title="打卡记录" 
+        icon="clock-o" 
+        is-link 
+        bindtap="goToMyRecords"
+      />
+      <van-cell 
+        title="换班申请" 
+        icon="exchange" 
+        is-link 
+        bindtap="goToSwaps"
+      />
+      <van-cell 
+        title="我的统计" 
+        icon="chart-trending-o" 
+        is-link 
+        bindtap="goToStatistics"
+      />
+    </van-cell-group>
+  </view>
+  
+  <!-- 管理员菜单 -->
+  <view class="menu-card card" wx:if="{{isAdmin}}">
+    <view class="menu-title">⚙️ 管理功能</view>
+    <van-cell-group border="{{false}}">
+      <van-cell 
+        title="排班管理" 
+        icon="setting-o" 
+        is-link 
+        bindtap="goToScheduleManage"
+      />
+      <van-cell 
+        title="人员管理" 
+        icon="friends-o" 
+        is-link 
+        bindtap="goToUserManage"
+      />
+      <van-cell 
+        title="班次设置" 
+        icon="todo-list-o" 
+        is-link 
+        bindtap="goToShiftSetting"
+      />
+      <van-cell 
+        title="换班审批" 
+        icon="passed" 
+        is-link 
+        bindtap="goToSwapApprove"
+      >
+        <van-tag wx:if="{{stats.pendingApprovals > 0}}" type="danger">{{stats.pendingApprovals}}</van-tag>
+      </van-cell>
+      <van-cell 
+        title="统计报表" 
+        icon="bar-chart-o" 
+        is-link 
+        bindtap="goToTeamStatistics"
+      />
+      <van-cell 
+        title="公告管理" 
+        icon="volume-o" 
+        is-link 
+        bindtap="goToNoticeManage"
+      />
+    </van-cell-group>
+  </view>
+  
+  <!-- 设置菜单 -->
+  <view class="menu-card card">
+    <van-cell-group border="{{false}}">
+      <van-cell 
+        title="编辑资料" 
+        icon="edit" 
+        is-link 
+        bindtap="editProfile"
+      />
+      <van-cell 
+        title="关于我们" 
+        icon="info-o" 
+        is-link 
+        bindtap="aboutUs"
+      />
+      <van-cell 
+        title="联系客服" 
+        icon="service-o" 
+        is-link 
+        bindtap="contactService"
+      />
+    </van-cell-group>
+  </view>
+  
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text>值班管理小程序 v1.0.0</text>
+  </view>
+  
+  <van-toast id="van-toast" />
+</view>

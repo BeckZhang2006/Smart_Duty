@@ -1,0 +1,149 @@
+<view class="page-container">
+  <!-- 当前排班信息 -->
+  <view class="duty-card card" wx:if="{{assignment}}">
+    <view class="duty-header">
+      <text class="duty-date">{{assignment.date}}</text>
+      <van-tag type="primary">{{assignment.shiftInfo && assignment.shiftInfo.name}}</van-tag>
+    </view>
+    <view class="duty-time">
+      <text class="time-icon">🕐</text>
+      <text class="time-range">{{assignment.shiftInfo && assignment.shiftInfo.startTime}} - {{assignment.shiftInfo && assignment.shiftInfo.endTime}}</text>
+      <van-tag wx:if="{{assignment.isOvernight}}" type="warning" size="small">跨天</van-tag>
+    </view>
+    <view class="duty-location" wx:if="{{assignment.shiftInfo && assignment.shiftInfo.location}}">
+      <text class="location-icon">📍</text>
+      <text class="location-name">{{assignment.shiftInfo && assignment.shiftInfo.location && assignment.shiftInfo.location.name}}</text>
+      <text class="location-radius">(打卡范围{{(assignment.shiftInfo && assignment.shiftInfo.location && assignment.shiftInfo.location.radius) || 500}}米)</text>
+    </view>
+  </view>
+  
+  <!-- 无排班提示 -->
+  <view class="duty-card card no-duty" wx:else>
+    <view class="duty-header">
+      <text class="duty-date">今日无排班</text>
+      <van-tag type="default">自由打卡</van-tag>
+    </view>
+    <view class="duty-time">
+      <text class="time-icon">🕐</text>
+      <text class="time-range">工作时间 09:00 - 18:00</text>
+    </view>
+    <view class="duty-location">
+      <text class="location-icon">📍</text>
+      <text class="location-name">默认打卡点</text>
+      <text class="location-radius">(打卡范围500米)</text>
+    </view>
+  </view>
+  
+  <!-- 位置信息 -->
+  <view class="location-card card">
+    <view class="card-title">当前位置</view>
+    <view wx:if="{{location}}" class="location-info">
+      <view class="location-item">
+        <text class="label">纬度:</text>
+        <text class="value">{{location.latitude}}</text>
+      </view>
+      <view class="location-item">
+        <text class="label">经度:</text>
+        <text class="value">{{location.longitude}}</text>
+      </view>
+      <view class="location-item">
+        <text class="label">精度:</text>
+        <text class="value">{{location.accuracy}}米</text>
+      </view>
+      <view class="location-item" wx:if="{{distance !== null}}">
+        <text class="label">距离打卡点:</text>
+        <text class="value {{distance <= 500 ? 'text-success' : 'text-danger'}}">
+          {{distance}}米
+        </text>
+      </view>
+    </view>
+    <view wx:else class="location-loading">
+      <van-loading type="spinner" size="24px">定位中...</van-loading>
+    </view>
+    <button class="refresh-btn" bindtap="refreshLocation">刷新位置</button>
+  </view>
+  
+  <!-- 拍照上传 -->
+  <view class="photo-card card">
+    <view class="card-title">拍照上传</view>
+    <view class="photo-tips">请拍摄现场照片作为打卡凭证</view>
+    <view class="photo-upload">
+      <van-uploader
+        file-list="{{fileList}}"
+        max-count="1"
+        bind:after-read="afterRead"
+        bind:delete="deletePhoto"
+        accept="image"
+        capture="{{['camera']}}"
+      />
+    </view>
+  </view>
+  
+  <!-- 备注 -->
+  <view class="remark-card card">
+    <view class="card-title">备注</view>
+    <van-field
+      type="textarea"
+      placeholder="请输入备注信息（选填）"
+      autosize="{{ { maxHeight: 100, minHeight: 80 } }}"
+      value="{{remark}}"
+      bind:change="onRemarkChange"
+      border="{{false}}"
+    />
+  </view>
+  
+  <!-- 打卡按钮 -->
+  <view class="action-area">
+    <view wx:if="{{type === 'checkin'}}" class="checkin-btn-wrapper">
+      <button 
+        class="checkin-btn {{!canCheckIn ? 'disabled' : ''}}"
+        bindtap="handleCheckIn"
+        disabled="{{!canCheckIn || isSubmitting}}"
+      >
+        <view class="btn-content">
+          <text class="btn-icon">📷</text>
+          <text class="btn-text">{{isSubmitting ? '打卡中...' : '签到打卡'}}</text>
+        </view>
+        <text class="btn-time">{{currentTime}}</text>
+      </button>
+      <view wx:if="{{!canCheckIn}}" class="cannot-checkin-tips">
+        <text wx:if="{{!location}}">请先获取位置信息</text>
+        <text wx:elif="{{distance === null}}">正在计算距离...</text>
+        <text wx:elif="{{distance > 500}}">超出打卡范围（当前{{Math.round(distance)}}米）</text>
+        <text wx:elif="{{fileList.length === 0}}">请上传照片</text>
+      </view>
+    </view>
+    
+    <view wx:else class="checkout-btn-wrapper">
+      <button 
+        class="checkout-btn {{!canCheckOut ? 'disabled' : ''}}"
+        bindtap="handleCheckOut"
+        disabled="{{!canCheckOut || isSubmitting}}"
+      >
+        <view class="btn-content">
+          <text class="btn-icon">🏃</text>
+          <text class="btn-text">{{isSubmitting ? '签退中...' : '签退'}}</text>
+        </view>
+        <text class="btn-time">{{currentTime}}</text>
+      </button>
+      <view wx:if="{{!canCheckOut}}" class="cannot-checkout-tips">
+        <text wx:if="{{!location}}">请先获取位置信息</text>
+        <text wx:elif="{{distance === null}}">正在计算距离...</text>
+        <text wx:elif="{{distance > 500}}">超出打卡范围（当前{{Math.round(distance)}}米）</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 打卡记录 -->
+  <view class="record-card card" wx:if="{{checkRecords.length > 0}}">
+    <view class="card-title">本次打卡记录</view>
+    <van-steps
+      steps="{{checkRecords}}"
+      active="{{checkRecords.length - 1}}"
+      direction="vertical"
+      active-color="#07c160"
+    />
+  </view>
+  
+  <van-toast id="van-toast" />
+</view>

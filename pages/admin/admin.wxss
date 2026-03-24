@@ -1,0 +1,224 @@
+/* 管理员头部 */
+.admin-header {
+  background: linear-gradient(135deg, #07c160 0%, #05a350 100%);
+  padding: 40rpx;
+  border-radius: 0 0 30rpx 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 40rpx;
+  font-weight: 600;
+  margin-bottom: 30rpx;
+}
+
+.header-stats {
+  display: flex;
+  justify-content: space-around;
+}
+
+.header-stat {
+  text-align: center;
+  color: #fff;
+}
+
+.header-stat .stat-value {
+  display: block;
+  font-size: 48rpx;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+}
+
+.header-stat .stat-label {
+  font-size: 26rpx;
+  opacity: 0.9;
+}
+
+/* 快捷操作 */
+.quick-actions {
+  margin: 0 20rpx 20rpx;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20rpx;
+  margin-top: 20rpx;
+}
+
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx 0;
+}
+
+.action-icon {
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44rpx;
+  margin-bottom: 12rpx;
+}
+
+.action-text {
+  font-size: 24rpx;
+  color: #333;
+}
+
+/* 今日排班 */
+.today-schedule, .pending-swaps, .recent-notices {
+  margin: 0 20rpx 20rpx;
+}
+
+.view-all {
+  font-size: 26rpx;
+  color: #07c160;
+}
+
+.schedule-list {
+  margin-top: 20rpx;
+}
+
+.schedule-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.schedule-item:last-child {
+  border-bottom: none;
+}
+
+.staff-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+
+.staff-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.staff-name {
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.staff-dept {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+.shift-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20rpx;
+}
+
+.shift-name {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.shift-time {
+  font-size: 22rpx;
+  color: #999;
+}
+
+/* 换班申请 */
+.swap-list {
+  margin-top: 20rpx;
+}
+
+.swap-item {
+  background: #f8f8f8;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.swap-users {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20rpx;
+}
+
+.swap-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-avatar-small {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-bottom: 12rpx;
+}
+
+.user-avatar-small + .user-name {
+  font-size: 28rpx;
+}
+
+.swap-arrow {
+  margin: 0 40rpx;
+  font-size: 40rpx;
+}
+
+.swap-reason {
+  font-size: 28rpx;
+  color: #666;
+  background: #fff;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.swap-actions {
+  display: flex;
+  gap: 20rpx;
+  justify-content: flex-end;
+}
+
+/* 公告 */
+.notice-list {
+  margin-top: 20rpx;
+}
+
+.notice-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.notice-item:last-child {
+  border-bottom: none;
+}
+
+.notice-title {
+  flex: 1;
+  font-size: 30rpx;
+  color: #333;
+  margin: 0 20rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notice-time {
+  font-size: 24rpx;
+  color: #999;
+}

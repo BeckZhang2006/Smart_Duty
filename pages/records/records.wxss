@@ -1,0 +1,222 @@
+/* pages/records/records.wxss */
+.page-container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.filter-bar {
+  display: flex;
+  background-color: #fff;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+
+.filter-item {
+  flex: 1;
+  text-align: center;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.filter-item .arrow {
+  margin-left: 8rpx;
+  font-size: 20rpx;
+  color: #999;
+}
+
+.records-list {
+  padding: 20rpx;
+}
+
+.record-card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.record-date {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.record-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.shift-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shift-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.shift-time {
+  font-size: 26rpx;
+  color: #666;
+}
+
+/* 打卡详情 */
+.check-detail {
+  background-color: #f8f8f8;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 12rpx;
+}
+
+.check-detail-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.check-label {
+  width: 80rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.check-time {
+  flex: 1;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.check-distance {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+/* 照片 */
+.check-photo {
+  margin-top: 12rpx;
+  position: relative;
+}
+
+.photo-thumb {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 8rpx;
+  background-color: #eee;
+}
+
+.photo-hint {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 22rpx;
+  padding: 8rpx;
+  text-align: center;
+  border-radius: 0 0 8rpx 8rpx;
+}
+
+/* 工时 */
+.work-hours {
+  display: flex;
+  align-items: center;
+  background-color: #f0f9eb;
+  border-radius: 8rpx;
+  padding: 16rpx 20rpx;
+}
+
+.work-hours-label {
+  font-size: 26rpx;
+  color: #666;
+  margin-right: 16rpx;
+}
+
+.work-hours-value {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #07c160;
+}
+
+/* 备注 */
+.remark-info {
+  background-color: #fffbe6;
+  border-radius: 8rpx;
+  padding: 16rpx 20rpx;
+}
+
+.remark-label {
+  font-size: 26rpx;
+  color: #d48806;
+}
+
+.remark-content {
+  font-size: 26rpx;
+  color: #333;
+}
+
+/* 图片预览 */
+.image-preview-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40rpx;
+  box-sizing: border-box;
+}
+
+.preview-image {
+  width: 100%;
+  max-height: 80vh;
+}
+
+.close-preview {
+  margin-top: 40rpx;
+  color: #fff;
+  font-size: 32rpx;
+  padding: 20rpx 40rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 40rpx;
+}
+
+/* 用户信息（管理员可见） */
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.user-avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  margin-right: 16rpx;
+}
+
+.user-name {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.empty-state {
+  padding-top: 200rpx;
+}

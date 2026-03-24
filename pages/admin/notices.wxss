@@ -1,0 +1,107 @@
+/* pages/admin/notices.wxss */
+.page-container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  padding: 20rpx;
+}
+
+.notice-list {
+  padding-bottom: 140rpx;
+}
+
+.notice-card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.notice-card.is-top {
+  border: 2rpx solid #ff976a;
+}
+
+.notice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16rpx;
+}
+
+.notice-title {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  flex: 1;
+}
+
+.top-tag {
+  flex-shrink: 0;
+}
+
+.title-text {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.notice-actions {
+  display: flex;
+  gap: 12rpx;
+}
+
+.notice-body {
+  margin-bottom: 16rpx;
+}
+
+.notice-content {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.notice-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f5f5f5;
+}
+
+.notice-time {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.notice-type {
+  font-size: 24rpx;
+  color: #07c160;
+}
+
+.empty-state {
+  padding-top: 200rpx;
+}
+
+.fab-btn {
+  position: fixed;
+  right: 40rpx;
+  bottom: 100rpx;
+  width: 100rpx;
+  height: 100rpx;
+  background: linear-gradient(135deg, #07c160 0%, #05a350 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 20rpx rgba(7, 193, 96, 0.4);
+  z-index: 100;
+}
+
+.fab-icon {
+  color: #fff;
+  font-size: 48rpx;
+  font-weight: 300;
+}

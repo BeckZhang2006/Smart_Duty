@@ -1,0 +1,54 @@
+<!--pages/admin/shifts.wxml-->
+<view class="page-container">
+  <!-- 班次列表 -->
+  <view class="shift-list">
+    <view wx:if="{{shifts.length > 0}}">
+      <view wx:for="{{shifts}}" wx:key="_id" class="shift-card">
+        <view class="shift-header">
+          <view class="shift-title">
+            <text class="shift-name">{{item.name}}</text>
+            <van-tag type="{{item.isActive !== false ? 'success' : 'default'}}" size="mini">
+              {{item.isActive !== false ? '启用' : '停用'}}
+            </van-tag>
+          </view>
+          <view class="shift-actions">
+            <van-button type="primary" size="mini" plain bindtap="editShift" data-id="{{item._id}}">编辑</van-button>
+          </view>
+        </view>
+        <view class="shift-body">
+          <!-- 多时间段显示 -->
+          <view class="info-row" wx:if="{{item.timeSlots && item.timeSlots.length > 0}}">
+            <text class="info-label">时间段：</text>
+            <view class="time-slots">
+              <view wx:for="{{item.timeSlots}}" wx:for-item="slot" wx:key="index" class="time-slot-tag">
+                {{slot.startTime}}-{{slot.endTime}}
+              </view>
+            </view>
+          </view>
+          <view class="info-row" wx:else>
+            <text class="info-label">时间：</text>
+            <text class="info-value">{{item.startTime}} - {{item.endTime}}</text>
+          </view>
+          <view class="info-row" wx:if="{{item.location}}">
+            <text class="info-label">地点：</text>
+            <text class="info-value">{{item.location.name || '已设置'}}</text>
+          </view>
+          <view class="info-row" wx:if="{{item.location}}">
+            <text class="info-label">范围：</text>
+            <text class="info-value">{{item.location.radius || 500}}米</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="empty-state">
+      <van-empty description="暂无班次数据" />
+    </view>
+  </view>
+  
+  <!-- 添加按钮 -->
+  <view class="fab-btn" bindtap="addShift">
+    <text class="fab-icon">+</text>
+  </view>
+  
+  <van-toast id="van-toast" />
+</view>

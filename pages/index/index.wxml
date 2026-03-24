@@ -1,0 +1,181 @@
+<view class="page-container">
+  <!-- 顶部日历 -->
+  <view class="calendar-card">
+    <view class="calendar-header">
+      <view class="month-selector" bindtap="showMonthPicker">
+        <text class="current-month">{{currentYear}}年{{currentMonth}}月</text>
+        <text class="arrow">▼</text>
+      </view>
+      <view class="today-btn" bindtap="goToToday">今天</view>
+    </view>
+    
+    <!-- 星期标题 -->
+    <view class="week-header">
+      <view wx:for="{{weekDays}}" wx:key="index" class="week-day {{index === 0 || index === 6 ? 'weekend' : ''}}">
+        {{item}}
+      </view>
+    </view>
+    
+    <!-- 日期网格 -->
+    <view class="date-grid">
+      <view 
+        wx:for="{{calendarDays}}" 
+        wx:key="date"
+        class="date-cell {{item.isCurrentMonth ? '' : 'other-month'}} {{item.isToday ? 'today' : ''}} {{item.isSelected ? 'selected' : ''}} {{item.hasDuty ? 'has-duty' : ''}}"
+        bindtap="selectDate"
+        data-date="{{item.date}}"
+      >
+        <text class="date-number">{{item.day}}</text>
+        <!-- 班次指示点 -->
+        <view wx:if="{{item.duties && item.duties.length > 0}}" class="duty-dots">
+          <view 
+            wx:for="{{item.duties}}" 
+            wx:key="index"
+            wx:for-item="duty"
+            class="duty-dot {{duty.shiftColor}}"
+          ></view>
+        </view>
+        <!-- 农历/节假日 -->
+        <text wx:if="{{item.holiday}}" class="holiday-text">{{item.holiday}}</text>
+        <text wx:elif="{{item.lunar}}" class="lunar-text">{{item.lunar}}</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 选中日期的排班详情 -->
+  <view class="duty-detail-card card" wx:if="{{selectedDate}}">
+    <view class="card-header">
+      <text class="card-title">{{selectedDate}} 排班</text>
+      <text wx:if="{{isAdmin}}" class="edit-btn" bindtap="editSchedule">编辑</text>
+    </view>
+    
+    <view wx:if="{{selectedDuties.length > 0}}" class="duty-list">
+      <view 
+        wx:for="{{selectedDuties}}" 
+        wx:key="_id"
+        class="duty-item {{(item.shiftInfo && item.shiftInfo.color)}}"
+        bindtap="goToDetail"
+        data-id="{{item._id}}"
+      >
+        <view class="duty-main">
+          <view class="duty-time">
+            <text class="shift-name">{{(item.shiftInfo && item.shiftInfo.name) || '未知班次'}}</text>
+            <text class="time-range">{{item.shiftInfo && item.shiftInfo.startTime}} - {{item.shiftInfo && item.shiftInfo.endTime}}</text>
+            <text wx:if="{{item.isOvernight}}" class="overnight-tag">跨天</text>
+          </view>
+          <view class="duty-status">
+            <van-tag type="{{getStatusType(item.status)}}">{{getStatusText(item.status)}}</van-tag>
+          </view>
+        </view>
+        
+        <view class="duty-info">
+          <view class="user-info">
+            <image class="user-avatar" src="{{(item.userInfo && item.userInfo.avatarUrl) || '/images/default-avatar.png'}}" mode="aspectFill"/>
+            <text class="user-name">{{(item.userInfo && item.userInfo.realName) || '未知'}}</text>
+          </view>
+          <view class="duty-actions" wx:if="{{item.userId === currentUser._id}}">
+            <van-button 
+              wx:if="{{item.status === 'pending'}}"
+              type="primary" 
+              size="small"
+              bindtap="goToCheckIn"
+              data-id="{{item._id}}"
+            >去打卡</van-button>
+            <van-button 
+              wx:if="{{item.status === 'checked_in'}}"
+              type="warning" 
+              size="small"
+              bindtap="goToCheckOut"
+              data-id="{{item._id}}"
+            >签退</van-button>
+            <van-button 
+              wx:if="{{item.status === 'pending' || item.status === 'checked_in'}}"
+              type="default" 
+              size="small"
+              bindtap="applySwap"
+              data-id="{{item._id}}"
+            >换班</van-button>
+          </view>
+        </view>
+        
+        <!-- 打卡信息 -->
+        <view wx:if="{{item.checkInTime}}" class="check-info">
+          <view class="check-row">
+            <text class="check-label">签到:</text>
+            <text class="check-time">{{formatTime(item.checkInTime)}}</text>
+            <text wx:if="{{item.isLate}}" class="tag-late">迟到</text>
+          </view>
+          <view wx:if="{{item.checkOutTime}}" class="check-row">
+            <text class="check-label">签退:</text>
+            <text class="check-time">{{formatTime(item.checkOutTime)}}</text>
+            <text wx:if="{{item.isEarlyLeave}}" class="tag-early">早退</text>
+            <text class="work-hours">工时: {{item.workHours}}h</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <view wx:else class="empty-duties">
+      <van-empty description="当日无排班" />
+    </view>
+  </view>
+  
+  <!-- 快捷操作 -->
+  <view class="quick-actions card">
+    <view class="card-title">快捷操作</view>
+    <van-grid column-num="4" border="{{false}}">
+      <van-grid-item icon="clock-o" text="打卡记录" bindtap="goToRecords" />
+      <van-grid-item icon="exchange" text="换班申请" bindtap="goToSwaps" />
+      <van-grid-item icon="chart-trending-o" text="统计报表" bindtap="goToStatistics" />
+      <van-grid-item wx:if="{{isAdmin}}" icon="setting-o" text="排班管理" bindtap="goToAdmin" />
+    </van-grid>
+  </view>
+  
+  <!-- 月份选择弹窗 -->
+  <van-popup show="{{showMonthPicker}}" position="bottom" bind:close="hideMonthPicker">
+    <van-picker
+      show-toolbar
+      title="选择月份"
+      columns="{{monthColumns}}"
+      default-index="{{currentMonthIndex}}"
+      bind:confirm="onMonthConfirm"
+      bind:cancel="hideMonthPicker"
+    />
+  </van-popup>
+  
+  <!-- 换班弹窗 -->
+  <van-dialog
+    use-slot
+    title="申请换班"
+    show="{{showSwapDialog}}"
+    show-cancel-button
+    confirm-button-text="提交"
+    bind:confirm="submitSwap"
+    bind:cancel="cancelSwap"
+  >
+    <view class="swap-form">
+      <van-field
+        label="原班次"
+        value="{{swapForm.originalShift}}"
+        readonly
+      />
+      <van-field
+        label="目标人员"
+        value="{{swapForm.targetUser}}"
+        placeholder="请选择"
+        readonly
+        is-link
+        bindtap="selectTargetUser"
+      />
+      <van-field
+        label="换班理由"
+        type="textarea"
+        value="{{swapForm.reason}}"
+        placeholder="请输入换班理由"
+        bind:change="onReasonChange"
+      />
+    </view>
+  </van-dialog>
+  
+  <van-toast id="van-toast" />
+</view>

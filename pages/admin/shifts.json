@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "班次设置",
+  "usingComponents": {
+    "van-tag": "@vant/weapp/tag/index",
+    "van-button": "@vant/weapp/button/index",
+    "van-empty": "@vant/weapp/empty/index",
+    "van-toast": "@vant/weapp/toast/index"
+  }
+}
