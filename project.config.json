@@ -57,7 +57,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "2.30.0",
-  "appid": "wx1dd7091711f7b7e0",
+  "appid": "",
   "projectname": "duty-management",
   "cloudfunctionRoot": "cloudfunctions/",
   "condition": {},
