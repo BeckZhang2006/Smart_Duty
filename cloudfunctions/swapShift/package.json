@@ -1,0 +1,9 @@
+{
+  "name": "swapShift",
+  "version": "1.0.0",
+  "description": "换班申请与审批",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~3.0.0"
+  }
+}

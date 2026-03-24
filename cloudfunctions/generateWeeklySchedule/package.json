@@ -1,0 +1,9 @@
+{
+  "name": "generateWeeklySchedule",
+  "version": "1.0.0",
+  "description": "按周模板生成排班",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~3.0.0"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "checkIn",
+  "version": "1.0.0",
+  "description": "GPS打卡验证",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~3.0.0"
+  }
+}
